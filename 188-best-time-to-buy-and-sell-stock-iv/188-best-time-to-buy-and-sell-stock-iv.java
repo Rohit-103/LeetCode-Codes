@@ -17,14 +17,19 @@ class Solution {
         if(i == prices.length || k == curk){
             return 0;
         }
+        // after buying, we can either skip or sell
+        // after selling, we can either skip or buy
         int buy = bought == true ? 1 : 0;
         if(dp[buy][i][curk] != 0) return dp[buy][i][curk];
+        // Skip call
         int a = solve(prices,dp,bought,i+1,curk,k);
         int b = 0;
         if(bought == true){
+            // selling call
             b = solve(prices,dp,!bought,i+1,curk+1,k) + prices[i];
         }
         else{
+           // buying call
            b = solve(prices,dp,!bought,i+1,curk,k) - prices[i];
         }
         return dp[buy][i][curk] = Math.max(a,b);
