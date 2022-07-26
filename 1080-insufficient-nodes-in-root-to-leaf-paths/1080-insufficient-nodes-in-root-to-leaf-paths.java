@@ -14,30 +14,29 @@
  * }
  */
 class Solution {
-    public class pair{
-        TreeNode node;
-        int sum;
-        pair(TreeNode node, int sum){
-            this.node = node;
-            this.sum = sum;
-        }
-    }
     public TreeNode sufficientSubset(TreeNode root, int limit) {
-        pair ans = solve(root,0,limit);
-        return ans.node;
+        if(root == null) return null;
+        boolean ans = solve(root,limit,0);
+        if(ans == false) return null;
+        else return root;
     }
-    pair solve(TreeNode root, int uppersum, int limit){
-        if(root == null) return new pair(null,Integer.MIN_VALUE);
-        
-        pair left = solve(root.left,uppersum + root.val, limit);
-        pair right = solve(root.right, uppersum + root.val, limit);
-        root.left = left.node;
-        root.right = right.node;
-        int max = Math.max(left.sum,right.sum);
-        
-        if((max == Integer.MIN_VALUE ? 0 : max) + root.val + uppersum < limit){
-            return new pair(null,(max == Integer.MIN_VALUE ? 0 : max) + root.val);
+    public boolean solve(TreeNode root, int limit, int sum){
+        if(root == null) return false;
+        if(root.left == null && root.right == null){
+            if(sum + root.val < limit) return false;
+            else return true;
         }
-        else return new pair(root,(max == Integer.MIN_VALUE ? 0 : max) + root.val);
+        boolean left = solve(root.left,limit,sum + root.val);
+        boolean right = solve(root.right,limit, sum + root.val);
+        if(left == false && right == false){
+            return false;
+        }
+        else if(right == false){
+            root.right = null;
+        }
+        else if(left == false){
+            root.left = null;
+        }
+        return true;
     }
 }
