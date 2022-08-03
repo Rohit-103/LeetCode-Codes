@@ -10,6 +10,7 @@ class Solution {
                 if(set.contains(s.substring(j,i+1)) == true)
                     if(j == 0 || dp[j-1] == true){
                         dp[i] = true;
+                        break;
                     }
             }
         }
