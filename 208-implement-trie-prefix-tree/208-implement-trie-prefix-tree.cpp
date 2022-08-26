@@ -1,7 +1,7 @@
 class Node{
     public:
     char c;
-    unordered_map<char,Node*>m;
+    Node* arr[26] = {NULL};
     bool isTerminal;
     Node(char data){
         c = data;
@@ -13,15 +13,18 @@ public:
     Node*root;
     Trie() {
         root = new Node('\0');
+        // for(int i=0;i<26;i++){
+        //     cout<<root->arr[i]<<" ";
+        // }
     }
     
     void insert(string word) {
         Node*temp = root;
         for(char ch : word){
-            if(temp->m.count(ch) == false){
-                temp->m[ch] = new Node(ch);
+            if(temp->arr[ch-'a'] == NULL){
+                temp->arr[ch-'a'] = new Node(ch);
             } 
-            temp = temp->m[ch];
+            temp = temp->arr[ch-'a'];
         }
         temp->isTerminal = true;
     }
@@ -29,8 +32,8 @@ public:
     bool search(string word) {
         Node*temp = root;
         for(char ch : word){
-            if(temp->m.count(ch) == false) return false;
-            temp = temp->m[ch];
+            if(temp->arr[ch-'a'] == NULL) return false;
+            temp = temp->arr[ch-'a'];
         }
         return temp->isTerminal;
     }
@@ -38,8 +41,8 @@ public:
     bool startsWith(string prefix) {
         Node*temp = root;
         for(char ch : prefix){
-            if(temp->m.count(ch) == false) return false;
-            temp = temp->m[ch];
+            if(temp->arr[ch-'a'] == NULL) return false;
+            temp = temp->arr[ch-'a'];
         }
         return true;
     }
