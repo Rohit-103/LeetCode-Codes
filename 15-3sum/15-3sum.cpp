@@ -11,8 +11,8 @@ public:
         // for(auto p : map){
         //     cout<<p.first << "->" << p.second<<endl;
         // }
-        for(int i=0;i<n-2;i++){
-            for(int j=i+1;j<n-1;j++){
+        for(int i=0;i<n-2;++i){
+            for(int j=i+1;j<n-1;++j){
                 int tar = -nums[i] - nums[j];
                 // cout<<tar<<endl;
                 if(map.find(tar)!=map.end() && map[tar] > j){
