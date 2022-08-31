@@ -2,28 +2,26 @@ class Solution {
 public:
     vector<vector<int>> threeSum(vector<int>& nums) {
         sort(nums.begin(),nums.end());
-        vector<vector<int>>ans;
         int n = nums.size();
+        vector<vector<int>>ans;
+        unordered_map<int,int>map;
         for(int i=0;i<n;i++){
-            if(i!=0 && nums[i] == nums[i-1]) continue;
-            int tar = -nums[i];
-            int lo = i+1;
-            int hi = n-1;
-            bool flag = false;
-            while(lo < hi){
-                if(nums[lo] + nums[hi] == tar){
-                    if(flag == true && nums[lo] == nums[lo-1]){
-                        lo++; hi--;
-                        continue;
-                   }
-                   flag = true;
-                   ans.push_back({nums[i],nums[lo],nums[hi]});
-                    lo++;
-                    hi--;
+            map[nums[i]] = i;
+        }
+        // for(auto p : map){
+        //     cout<<p.first << "->" << p.second<<endl;
+        // }
+        for(int i=0;i<n-2;i++){
+            for(int j=i+1;j<n-1;j++){
+                int tar = -nums[i] - nums[j];
+                // cout<<tar<<endl;
+                if(map.find(tar)!=map.end() && map[tar] > j){
+                    // cout<<map[tar]<<endl;
+                    ans.push_back({nums[i],nums[j],tar});
                 }
-                else if(nums[lo] + nums[hi] > tar){ hi--; flag = false; } 
-                else{ lo++; flag = false; }
+                j = map[nums[j]];
             }
+            i = map[nums[i]];
         }
         return ans;
     }
